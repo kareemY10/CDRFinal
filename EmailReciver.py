@@ -23,7 +23,7 @@ def get_msg_object(data):
         if isinstance(response_part, tuple):
             return email.message_from_bytes(response_part[1])
 
-def get_top_10_emails(category):
+def get_top_10_emails(category): # for now only gets the last email sent 
    
     status, response = mail.uid('search', 'X-GM-RAW "category:' + category + '"')
 
