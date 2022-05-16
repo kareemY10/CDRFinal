@@ -5,8 +5,8 @@ import itertools
 
 
 
-def Clean_Pdf_From_ClickAbles():
-    pdf = pdfrw.PdfReader("pdf.pdf")
+def Clean_Pdf_From_ClickAbles(filename):
+    pdf = pdfrw.PdfReader("CDRRoom/"+str(filename))
     new_pdf = pdfrw.PdfWriter()  
 
     for page in pdf.pages:  

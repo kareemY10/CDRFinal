@@ -38,31 +38,31 @@ mail=get_mail_client("donyacdrproject@gmail.com")
 mail.select('INBOX')
 
 
+def get_attachments():
+    for uid in get_top_10_emails(''):
+        status, data = mail.uid('fetch', uid, '(RFC822)')
+        msg = get_msg_object(data)
+        #print(type(msg))
+        # print(filename)
 
-for uid in get_top_10_emails(''):
-    status, data = mail.uid('fetch', uid, '(RFC822)')
-    msg = get_msg_object(data)
-    #print(type(msg))
-    # print(filename)
+    for part in msg.walk():
+        #print(part.get_content_type())
+        if part.get_content_maintype() == 'multipart':
+            continue
+        if part.get('Content-Disposition') is None:
+            continue
 
-for part in msg.walk():
-    #print(part.get_content_type())
-    if part.get_content_maintype() == 'multipart':
-        continue
-    if part.get('Content-Disposition') is None:
-        continue
-
-    fileName = part.get_filename()
+        fileName = part.get_filename()
     
-    if bool(fileName):
-        # this path will only work on kareem's computer and when we add UI we should modify it according to what the user wants
-        filePath = os.path.join('C:/Users/user/Desktop/CDRFinal/CDRRoom', fileName)
+        if bool(fileName):
+            # this path will only work on kareem's computer and when we add UI we should modify it according to what the user wants
+            filePath = os.path.join('C:/Users/user/Desktop/CDRFinal/CDRRoom', fileName)
+
     
-    if not os.path.isfile(filePath) :
+        if not os.path.isfile(filePath) :
                 fp = open(filePath, 'wb')
                 fp.write(part.get_payload(decode=True))
                 fp.close()
-        
-        
-print(fileName)
 
+        return fileName
+  
