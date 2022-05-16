@@ -1,9 +1,5 @@
 pdfrw==0.4
 
-pypdf2-1.27.6
-
-pdfx-1.4.1
-
 email
 
 imaplib

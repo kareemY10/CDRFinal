@@ -1,6 +1,5 @@
 import pdfrw
 import re
-import PyPDF2
 import itertools
 
 
