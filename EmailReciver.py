@@ -55,10 +55,7 @@ def get_attachments():
         fileName = part.get_filename()
     
         if bool(fileName):
-            # this path will only work on kareem's computer and when we add UI we should modify it according to what the user wants
-            filePath = os.path.join('C:/Users/user/Desktop/CDRFinal/CDRRoom', fileName)
-
-    
+            filePath = os.path.join('CDRRoom', fileName)
         if not os.path.isfile(filePath) :
                 fp = open(filePath, 'wb')
                 fp.write(part.get_payload(decode=True))
