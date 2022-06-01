@@ -12,12 +12,12 @@ def Clean_Pdf_From_ClickAbles(filename):
 
         for annot in page.Annots or []:
             old_url = annot.A.URI
-            print('old')
-            print(old_url)
+            
             
             new_url = pdfrw.objects.pdfstring.PdfString("#")
             print(new_url)
             annot.A.URI = new_url
+
             print(annot.A.URI)
         new_pdf.addpage(page)    
 
