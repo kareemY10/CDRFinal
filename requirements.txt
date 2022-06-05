@@ -3,3 +3,5 @@ pdfrw==0.4
 email
 
 imaplib
+
+peepdf==0.3.2
