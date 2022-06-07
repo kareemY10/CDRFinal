@@ -19,8 +19,8 @@ def Clean_Pdf_From_ClickAbles(filename):
             # print(annot.A.URI)
         new_pdf.addpage(page)    
 
-    new_pdf.write("new.pdf")
-
+    new_pdf.write(str('CDR_'+filename))
+    return ('CDR_'+filename)
 
 
 
