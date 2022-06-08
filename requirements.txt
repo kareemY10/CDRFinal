@@ -5,5 +5,5 @@ email
 imaplib
 
 peepdf==0.3.2
-
+pdfid==1.1.0
 pyrebase
