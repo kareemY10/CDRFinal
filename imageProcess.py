@@ -10,7 +10,8 @@ imagename = "sample.jpeg"
 # read the image data using PIL
 image = Image.open(imagename)
 
-text = pytesseract. image_to_string(image)
+image.seek()
+#text = pytesseract. image_to_string(image)
 
 # extract EXIF data
 exifdata = image.getexif()
@@ -18,3 +19,8 @@ exifdata = image.getexif()
 with open ("ImageText" , 'w') as f:
     f.write(text)
     f.close()
+
+
+
+
+
