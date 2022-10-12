@@ -1,7 +1,7 @@
 import imaplib
 import email
 import os
-
+import sys
 
 
 def get_mail_client(email_address):
@@ -63,3 +63,12 @@ def get_attachments():
 
         return fileName
   
+
+if __name__ == "__main__":
+    get_attachments()
+    print('done')
+    sys.stdout.flush()
+
+
+
+    
