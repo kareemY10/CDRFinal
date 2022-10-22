@@ -1,9 +1,9 @@
 pdfrw==0.4
-
 email
-
 imaplib
-
 peepdf==0.3.2
 pdfid==1.1.0
-pyrebase
+pywin32==304
+python-docx==0.8.11
+python-pptx==0.6.21
+aspose.slides==22.8.0
