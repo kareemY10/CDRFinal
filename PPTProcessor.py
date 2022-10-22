@@ -65,4 +65,4 @@ def clean_ppt(filepath):
     prs.save(filepath)
 
 
-DisableMacro('Test.pptm','Test')
+# DisableMacro('Test.pptm','Test')
