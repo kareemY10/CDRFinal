@@ -52,9 +52,13 @@ first_line = 'Evaluation Only. Created with Aspose.Words. Copyright 2003-2022 As
 footer_clean = 'Created with an evaluation copy of Aspose.Words. To discover the full versions of our APIs please visit: https://products.aspose.com/words/'
 
 def clean_footer(filepath):
-    clean_footer(filepath)
-    clean_paragraphs(filepath)    
-
+    doc = Document(filepath)
+    for section in doc.sections:
+        footer = section.footer
+        for i in range(len(footer.paragraphs)):
+            footer.paragraphs[i].text = footer.paragraphs[i].text.replace(footer_clean,'')
+    doc.save(filepath) 
+         
 
 def clean_paragraphs(filepath):
     doc = Document(filepath)
