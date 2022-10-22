@@ -190,7 +190,7 @@ def CDR_Mail_form(mail,password,root):
    hr_height=Frame(frm,width=frm.winfo_screenwidth(),height=3,bg='#A9A9A9')
    hr_height.place(x=83,y=97)
    Mail_Messages_frame=Frame(frm,width=frm.winfo_screenwidth()-110, height=frm.winfo_screenheight()-100,bg='#fff' )
-   Mail_Messages_frame.place(x=90,y=100)
+   Mail_Messages_frame.place(x=90,y=100) 
    x_Main_Mail=90
    y_Main_Mail=100
    Emails_Number,lis_Of_Emails=EmailReciverExtra.Find_Emails(mail=mail,password=password)
