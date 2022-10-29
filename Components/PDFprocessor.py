@@ -1,5 +1,3 @@
-import re
-import itertools
 import pprint
 import pdfrw
 from pdfid import pdfid
