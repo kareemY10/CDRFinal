@@ -160,7 +160,6 @@ class DataBase:
         doc = self._emails.find_one({"code":message_code})
         if len(list(doc)) != 0 :
             obj = doc[0]
-            del doc
             return Message(from_email=obj[Message.FROM],usercode=obj[Message.TO],
                            date= obj[Message.DATE],content=obj[Message.CONTENT],
                            hashcode=obj[Message.CODE],subject=obj[Message.SUBJECT],
@@ -189,4 +188,5 @@ class DataBase:
             content = Content(message_code = message_Code , hashcode=doc[0][Content.CODE],
                               text=doc[0][Content.TEXT], attachments=doc[0][Content.ATTACHMENTS])
         
+        del doc
         return content
