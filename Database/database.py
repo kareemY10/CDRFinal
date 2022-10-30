@@ -189,5 +189,4 @@ class DataBase:
             content = Content(message_code = message_Code , hashcode=doc[0][Content.CODE],
                               text=doc[0][Content.TEXT], attachments=doc[0][Content.ATTACHMENTS])
         
-        del doc
         return content
