@@ -23,6 +23,8 @@ def DisableLinks(filepath):
 def DisableMacros(filepath,filename):
     print('================Remove Macros================')
     doc = aw.Document(filepath)
+    if doc.vba_project.modules is None :
+        return None
     vba_list =list(doc.vba_project.modules)
     logs =  []
     for _ in range(len(vba_list)):
@@ -32,16 +34,15 @@ def DisableMacros(filepath,filename):
         doc.vba_project.modules.remove(doc.vba_project.modules[0])
     
     doc.remove_macros()
-    doc.save(filename+'.docx') 
-    clean_docx(filename+'.docx')
+    doc.save(filepath+'\\'+filename+'.docx') 
+    clean_docx(filepath+'\\'+filename+'.docx')
     print('[=]Successfully remove all Macros.')  
     print('==============================================================')
-    return logs if logs != None else None 
+    return logs,filename+'.docx' if logs != None else None,filename+'.docx' 
        
 
 
 
-# need to fix ... 
 def clean_docx(filepath):
     clean_footer(filepath)
     clean_paragraphs(filepath) 

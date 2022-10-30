@@ -1,6 +1,7 @@
 import pprint
 import pdfrw
 from pdfid import pdfid
+import os 
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -37,8 +38,18 @@ def disarm_pdfs_by_buffer(filenames, file_buffers):
 
 
 
-def Clean_Pdf_From_ClickAbles(filename):
-    pdf = pdfrw.PdfReader("CDRRoom/"+str(filename))
+def Clean_Pdf_From_ClickAbles(filepath):
+    """_summary_
+
+    Args:
+        dirpath (str): Directory path of the file that need to clean
+        filename (str): file name with extension
+
+    Returns:
+        str,list[str] : the new name of the safe file , list of logs 
+    """
+    
+    pdf = pdfrw.PdfReader(filepath)
     new_pdf = pdfrw.PdfWriter()  
     logs = []
     print('----------Starting Clean PDF from ClickAbles-----------')
@@ -47,16 +58,16 @@ def Clean_Pdf_From_ClickAbles(filename):
         for annot in page.Annots or []:
             old_url = annot.A.URI
             log = f'[-]Remove {old_url}'
+            print(log)
             logs.append(log)
             new_url = pdfrw.objects.pdfstring.PdfString("#")
-            # print(new_url)
             annot.A.URI = new_url
 
-            # print(annot.A.URI)
         new_pdf.addpage(page)   
-
-    new_pdf.write('CDR_Processor/'+str('CDR_'+filename))
-    return ('CDR_'+filename),logs
+    new_pdf.write(filepath)
+    del new_pdf,pdf
+    print('----------Successfully Clean PDF from ClickAbles-----------')
+    return logs
 
 
 
@@ -67,7 +78,7 @@ def ANALYZE_AND_DISARM(fileDST):
     for filename in filenames:
         with open(filename, "rb") as f:
             file_buffers.append(f.read())
-
+            f.close()
     print("analyzing file by name ,")
     results_1 = Name_analyze(filenames)
     pp.pprint(results_1)

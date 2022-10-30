@@ -1,7 +1,7 @@
 from fileinput import filename
 from PIL import Image
 import numpy as np
-import sys 
+# import sys 
 
 
 def clean_png(file):
@@ -41,13 +41,13 @@ def clean_jpeg(file):
 
 
 
-filename=sys.argv[1]
+# filename=sys.argv[1]
 
-if filename[-3:] == 'png':
-    clean_png(filename)
-elif filename[-3:] == 'jpg':
-    clean_jpeg(filename)
-elif filename[-4:] == 'jpeg':
-    clean_jpeg(filename)
-else :
-    print('File type not supported')
+# if filename[-3:] == 'png':
+#     clean_png(filename)
+# elif filename[-3:] == 'jpg':
+#     clean_jpeg(filename)
+# elif filename[-4:] == 'jpeg':
+#     clean_jpeg(filename)
+# else :
+#     print('File type not supported')
