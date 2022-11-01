@@ -4,6 +4,7 @@ import os
 import PPTProcessor
 import DocumentProcessor
 import imageProcess as ImageProcessor
+from macpath import dirname
 
 
 images_processing = {'png':ImageProcessor.clean_png , 'jpeg':ImageProcessor.clean_jpeg , 'jpg':ImageProcessor.clean_jpeg}
@@ -79,3 +80,29 @@ class ImageProcess:
         else:
             print('------------Image type not supported--------------')
 
+
+import ExcelProcessor
+
+class ExcelProcess:
+    def __init__(self,filepath):
+        self._file = filepath
+        self._filename = str(os.path.basename(filepath))
+        self._type = self._filename.split('.')[-1]
+        self._dirpath = os.path.dirname(filepath)
+    
+    def processor(self):
+        macro_logs = ExcelProcessor.DisableMacros(self._file)
+        links_logs = ExcelProcessor.DisableLinks(self._file)
+        return macro_logs + links_logs
+    
+
+
+import SpamProcessor
+
+class SpamProcess:
+    
+    def __init__(self,message):
+        self._message = message
+        
+    def processor(self):
+        return SpamProcess(message=self._message)
