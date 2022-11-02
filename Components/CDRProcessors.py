@@ -105,4 +105,4 @@ class SpamProcess:
         self._message = message
         
     def processor(self):
-        return SpamProcess(message=self._message)
+        return SpamProcessor.Analyze_Message(message=self._message)
