@@ -45,13 +45,11 @@ class DataBase:
             docs = col.find({})
             if len(list(docs)) != 0 :
                 HashCodes = set(HashCodes + [doc["hashcode"] for doc in docs]) 
-        fill_codes(self._users)
-        fill_codes(self._logs)
-        fill_codes(self._files)
-        fill_codes(self._emails)
-        fill_codes(self._content)
+        atts = [self._users,self._logs,self._files,self._emails,self._content]
+        for o in atts:
+            fill_codes(o)
         
-        del fill_codes
+        del fill_codes,atts
 
 
 
