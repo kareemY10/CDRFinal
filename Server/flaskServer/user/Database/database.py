@@ -4,7 +4,7 @@ import string
 import random
 import gridfs
 import sys
-sys.path.append(os.path.abspath("C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\"))#Database path
+sys.path.append(os.path.abspath('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'))#Database path
 from Entities import *
 # define a list to store all hashcodes in the 5 collections...
 HashCodes = []
@@ -22,8 +22,8 @@ class DataBase:
     
     def __init__(self):
         def _read_auth():
-            for file in os.listdir('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'): #change path to auth directory 
-                fp = open('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth\\'+file,'r')
+            for file in os.listdir('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'): #change path to auth directory 
+                fp = open('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth\\'+file,'r')
                 yield fp.read().strip()
                 fp.close()
         generator =_read_auth()
@@ -31,7 +31,6 @@ class DataBase:
         username = next(generator)
         uri =f"mongodb+srv://{username}:{password}@ecdr.tbxowkh.mongodb.net/?retryWrites=true&w=majority"
         self._client = MongoClient(uri)
-        
         del uri,password,username,generator,_read_auth
         
         self._db = self._client[self.DATABASE]
@@ -43,8 +42,8 @@ class DataBase:
         self._fs = gridfs.GridFS(self._db)
         
         def fill_codes(col):
-            docs = col.find({})
-            if len(list(docs)) != 0 :
+            docs = col.find({})            
+            if not docs:
                 HashCodes = set(HashCodes + [doc["hashcode"] for doc in docs]) 
         atts = [self._users,self._logs,self._files,self._emails,self._content]
         for o in atts:
@@ -67,7 +66,7 @@ class DataBase:
     
     
     def insert_user(self,email_address: str) -> bool:
-        if  self._find_user is not None:
+        if  self._find_user(email_address=email_address) is None:
             hashcode = self.generate_hashcode()
             self._users.insert_one({
                                 User.EMAIL_ADDRESS : email_address ,
@@ -80,8 +79,8 @@ class DataBase:
     
     
     def _find_user(self,email_address : str):
-        doc = list(self._users.find({"email":email_address}))
-        if len(doc) != 0 :
+        doc = self._users.find({"email":email_address})
+        if len(list(doc)) != 0:
             return doc[0]["hashcode"]
         
         return None
@@ -189,3 +188,9 @@ class DataBase:
         
         del doc
         return content
+    
+    
+    
+    
+db = DataBase()
+print(db.insert_user('kareem3110@gmail.com'))
