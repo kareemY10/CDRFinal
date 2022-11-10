@@ -3,3 +3,8 @@
     background-color: #fff;
    /* border-radius: 10px;*/
 }
+
+.d:hover{
+
+    transform: scale(1.05); 
+}
