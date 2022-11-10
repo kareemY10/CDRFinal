@@ -5,6 +5,9 @@ $('form[name=signup_form').submit(function (e){
     var $form=$(this);
     var data=$form.serialize();
     e.preventDefault();
+    $('#loader').show();
+    $('#signupform').hide();
+
 
 
     $.ajax({
