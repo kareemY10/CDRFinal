@@ -4,6 +4,7 @@ import string
 import random
 import gridfs
 from Entities import *
+import hashlib
 
 # define a list to store all hashcodes in the 5 collections...
 HashCodes = []
@@ -65,14 +66,21 @@ class DataBase:
         
     
     
-    def insert_user(self,email_address: str) -> bool:
+    def insert_user(self,email_address: str , password : str) -> bool:
+        def generate_salt():
+            return ''.join(random.choice(LETTERS) for _ in range(32))
+        
         if  self._find_user is not None:
             hashcode = self.generate_hashcode()
+            salt = generate_salt()
+            hashed_password = hashlib.sha256((password + salt).encode('utf-8')).hexdigest()
             self._users.insert_one({
                                 User.EMAIL_ADDRESS : email_address ,
-                                User.CODE : hashcode
+                                User.CODE : hashcode ,
+                                User.PASS : hashed_password,
+                                User.SALT : salt
                                 })
-            del hashcode
+            del hashcode,salt,hashed_password,generate_salt
             return True
         
         return False
