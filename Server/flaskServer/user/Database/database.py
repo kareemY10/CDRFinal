@@ -3,9 +3,9 @@ import os
 import string
 import random
 import gridfs
+import sys
+sys.path.append(os.path.abspath("C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\"))#Database path
 from Entities import *
-import hashlib
-
 # define a list to store all hashcodes in the 5 collections...
 HashCodes = []
 
@@ -22,8 +22,8 @@ class DataBase:
     
     def __init__(self):
         def _read_auth():
-            for file in os.listdir('auth'):
-                fp = open('auth\\'+file,'r')
+            for file in os.listdir('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'): #change path to auth directory 
+                fp = open('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth\\'+file,'r')
                 yield fp.read().strip()
                 fp.close()
         generator =_read_auth()
@@ -66,21 +66,14 @@ class DataBase:
         
     
     
-    def insert_user(self,email_address: str , password : str) -> bool:
-        def generate_salt():
-            return ''.join(random.choice(LETTERS) for _ in range(32))
-        
+    def insert_user(self,email_address: str) -> bool:
         if  self._find_user is not None:
             hashcode = self.generate_hashcode()
-            salt = generate_salt()
-            hashed_password = hashlib.sha256((password + salt).encode('utf-8')).hexdigest()
             self._users.insert_one({
                                 User.EMAIL_ADDRESS : email_address ,
-                                User.CODE : hashcode ,
-                                User.PASS : hashed_password,
-                                User.SALT : salt
+                                User.CODE : hashcode
                                 })
-            del hashcode,salt,hashed_password,generate_salt
+            del hashcode
             return True
         
         return False

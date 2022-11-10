@@ -3,13 +3,9 @@ import os
 class User:
     EMAIL_ADDRESS = "email_address"
     CODE = "code"
-    PASS = "password"
-    SALT = "salt"
-    def __init__(self , email_address , password , salt , hashcode = None):
+    def __init__(self , email_address , hashcode = None):
         self._email = email_address
         self._code = hashcode
-        self._password = password
-        self._salt = salt
         
 class Message:
     FROM = "from"
