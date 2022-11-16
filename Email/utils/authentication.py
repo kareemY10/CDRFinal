@@ -24,8 +24,8 @@ def vaild_credentials(email:str,password:str):
     Returns:
         bool : True,if the user credentials is correct else False
     """
-    # if not validate(email_address=email):
-    #     return False
+    if not validate(email_address=email):
+        return False
     
     def extract_domain(email_address : str): 
         """extract the IMAP server from email address
