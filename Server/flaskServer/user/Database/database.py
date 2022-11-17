@@ -4,7 +4,7 @@ import string
 import random
 import gridfs
 import sys
-sys.path.append(os.path.abspath('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'))#Database path
+sys.path.append(os.path.abspath('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database'))#Database path
 from Entities import *
 # define a list to store all hashcodes in the 5 collections...
 HashCodes = []
@@ -22,8 +22,8 @@ class DataBase:
     
     def __init__(self):
         def _read_auth():
-            for file in os.listdir('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'): #change path to auth directory 
-                fp = open('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth\\'+file,'r')
+            for file in os.listdir('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'): #change path to auth directory 
+                fp = open('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth\\'+file,'r')
                 yield fp.read().strip()
                 fp.close()
         generator =_read_auth()
@@ -67,6 +67,7 @@ class DataBase:
     
     def insert_user(self,email_address: str) -> bool:
         if  self._find_user(email_address=email_address) is None:
+            print(email_address)
             hashcode = self.generate_hashcode()
             self._users.insert_one({
                                 User.EMAIL_ADDRESS : email_address ,
@@ -74,14 +75,18 @@ class DataBase:
                                 })
             del hashcode
             return True
-        
-        return False
+        else:
+            return False
     
     
     def _find_user(self,email_address : str):
-        doc = self._users.find({"email":email_address})
-        if len(list(doc)) != 0:
-            return doc[0]["hashcode"]
+        doc = self._users.find({User.EMAIL_ADDRESS:email_address})
+        temp=list(doc)
+        x=len(temp)
+        print(x)
+        if x != 0:
+            print('test 11')
+            return temp[0][User.CODE]
         
         return None
     
@@ -190,7 +195,4 @@ class DataBase:
         return content
     
     
-    
-    
-db = DataBase()
-print(db.insert_user('kareem3110@gmail.com'))
+   
