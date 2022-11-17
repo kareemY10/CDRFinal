@@ -1,5 +1,5 @@
 from flask import Flask,render_template
-from server import app
+from app import app
 from user.models import User
 
 
