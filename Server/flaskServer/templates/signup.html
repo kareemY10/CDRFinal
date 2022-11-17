@@ -20,6 +20,7 @@
   </head>
   <body style="background-color:#F6F8FC;">
     {% from 'components.html' import Navbar  ,ShowFooter %}
+    
     {{ Navbar(Loggedin) }}
 
 
@@ -39,6 +40,7 @@
         <input type="text" id="password" class="fadeIn third" name="passphrase" placeholder="password">
         <input type="submit" id="signupform" class="fadeIn fourth" value="Sign Up">
         <div id='loader' class="loader" style="display:none ;"></div>
+        <p class="error error--hidden"  style="color: red;"></p>
       </form>
   
       <!-- Remind Passowrd -->

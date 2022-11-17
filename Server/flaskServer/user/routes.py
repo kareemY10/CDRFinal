@@ -6,7 +6,9 @@ from user.models import User
 
 @app.route('/users/signup' , methods=['POST'])
 def sign():
-    user=User.signup()
-    print(user[0])
-    print('bom bom bom')
-    return 'k'
+    user=User()
+
+    return user.signup()
+@app.route('/users/signout')
+def signout():
+    return User().signout()
