@@ -1,6 +1,20 @@
 import imaplib
 from validate_email import validate_email
-from config import IMAP_SERVERS
+
+IMAP_SERVERS ={
+    "gmail":"imap.gmail.com",
+    "yahoo":"imap.mail.yahoo.com",
+    "yahoo.plus":"plus.imap.mail.yahoo.com",
+    "yahoo.uk":"imap.mail.yahoo.co.uk",
+    "yahoo.au":"imap.mail.yahoo.au",
+    "aol":"imap.aol.com",
+    "att":"imap.att.yahoo.com",
+    "ntl":"imap.ntlworld.com",
+    "btconnect":"imap4.btconnect.com",
+    "outlook":"imap-mail.outlook.com"
+}
+
+IMAP_PORT = 993
 
 def validate(email_address):
     """validate if the email address is  really exists using SMTP and DNS
@@ -11,7 +25,7 @@ def validate(email_address):
     Returns:
         bool: True if the email address is really exists ,else False
     """
-    return validate_email(email_address=email_address)
+    return validate_email(email_address)
 
 @staticmethod
 def vaild_credentials(email:str,password:str):
