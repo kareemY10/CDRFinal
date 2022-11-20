@@ -4,7 +4,8 @@ import string
 import random
 import gridfs
 import sys
-sys.path.append(os.path.abspath('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database'))#Database path
+import hashlib
+sys.path.append(os.path.abspath('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database'))#Database path
 from Entities import *
 # define a list to store all hashcodes in the 5 collections...
 HashCodes = []
@@ -22,8 +23,8 @@ class DataBase:
     
     def __init__(self):
         def _read_auth():
-            for file in os.listdir('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'): #change path to auth directory 
-                fp = open('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth\\'+file,'r')
+            for file in os.listdir('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth'): #change path to auth directory 
+                fp = open('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\Database\\auth\\'+file,'r')
                 yield fp.read().strip()
                 fp.close()
         generator =_read_auth()
@@ -65,20 +66,23 @@ class DataBase:
         
     
     
-    def insert_user(self,email_address: str) -> bool:
+    def insert_user(self,email_address: str , password : str) -> bool:
         if  self._find_user(email_address=email_address) is None:
-            print(email_address)
+            salt = ''.join(random.choice(LETTERS) for _ in range(16))
             hashcode = self.generate_hashcode()
+            hashpass = hashlib.sha256((password + salt).encode()) 
             self._users.insert_one({
                                 User.EMAIL_ADDRESS : email_address ,
+                                User.SALT : salt,
+                                User.PASSWORD : hashpass,
                                 User.CODE : hashcode
                                 })
-            del hashcode
+            del hashcode , salt , hashpass
             return True
         else:
             return False
     
-    
+            
     def _find_user(self,email_address : str):
         doc = self._users.find({User.EMAIL_ADDRESS:email_address})
         temp=list(doc)
