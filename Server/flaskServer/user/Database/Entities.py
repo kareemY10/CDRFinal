@@ -3,6 +3,8 @@ import os
 class User:
     EMAIL_ADDRESS = "email_address"
     CODE = "code"
+    SALT = "salt"
+    PASSWORD = "password"
     def __init__(self , email_address , hashcode = None):
         self._email = email_address
         self._code = hashcode
