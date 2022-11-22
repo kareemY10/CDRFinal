@@ -47,7 +47,11 @@ class EmailReceiver:
             bcc = email_message.get('BCC')
             date = email_message.get('Date')
             subject = email_message.get('Subject')
-            dict[count] = [From,to,bcc,date,subject]
+            subdict = {}
+            subdict["from"]=From
+            subdict["to"] = to
+            subdict["bcc"] = bcc
+            subdict["subject"] = subject
             firstTime = True
             content = ''    
             # iterate through the tree of mail
@@ -75,7 +79,8 @@ class EmailReceiver:
                         fd.close()
                         filelists.append(filepath)
             if filelists is not []:
-                dict[count] = dict[count] + filelists
+                subdict["files"] = filelists
+                dict[count] = subdict
         
         return dict
                     
