@@ -8,7 +8,7 @@ import os
 import sys
 sys.path.append(os.path.abspath('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\'))
 import Email.models.user as a
-
+import base64
 
 class EmailReceiver:
     
@@ -59,7 +59,12 @@ class EmailReceiver:
             for part in email_message.walk():
                 
                 if part.get_content_type() == 'text/plain':
-                    content += part.as_string()
+                    def isBase64(sb):
+                        import re
+                        return len(sb) % 4 == 0 and re.search('^[A-Za-z0-9+/]+[=]{0,3}$',sb)
+                    if not isBase64(part.get_payload()):
+                        content += part.get_payload()
+                        
                     continue
                 if part.get_content_type() == 'multipart':
                     continue
@@ -68,21 +73,28 @@ class EmailReceiver:
                 filename = part.get_filename()
                 if firstTime :
                     firstTime = False
-                    AttahcmentsPath = self._dir + '\\' + str(count)
+                    AttahcmentsPath = self._dir + '//' + str(count)
                     if not os.path.isdir(AttahcmentsPath):
                         os.mkdir(AttahcmentsPath)            
                 if bool(filename):
-                    filepath = AttahcmentsPath+'\\'+filename
+                    filepath = AttahcmentsPath+'//'+filename
                     
                     if not os.path.isfile(filepath):
                         fd = open(filepath,'wb')
                         fd.write(part.get_payload(decode=True))
                         fd.close()
-                        filelists.append(filepath)
+                        filelists.append(filepath[4:])
             if filelists is not []:
                 subdict["files"] = filelists
+                subdict["content"] = content
                 dict[count] = subdict
         
         return dict
                     
          
+User = a.user('testmoha99@gmail.com','gtmzpktjrzdqcywb','imap.gmail.com')
+em = EmailReceiver(User,'Inbox')
+d = em.receiver()
+for item in d:
+    print(d[item])
+    print("=========================================")
