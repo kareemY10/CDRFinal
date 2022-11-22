@@ -8,8 +8,8 @@ DB=database.DataBase()
 class User:
 
     def start_session(self,user):
-        del user['password']
         session['logged_in']=True
+
         session['user']=user
         return jsonify(user),200
 
@@ -22,7 +22,7 @@ class User:
         }
 
         
-        status=DB.insert_user(user['email']) 
+        status=DB.insert_user(user['email'],user['password']) 
         print('i am status '+ str(status))
         #status=False
         if status==False:
