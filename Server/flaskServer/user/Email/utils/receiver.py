@@ -2,13 +2,17 @@ import imaplib
 import email
 # import user.Database.database as DBAccess
 # import user.Database.Entities as model
-from models.user import user
+# from models.user import user
 import os
+import os
+import sys
+sys.path.append(os.path.abspath('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\'))
+import Email.models.user as a
 
 
 class EmailReceiver:
     
-    def __init__(self,User : user ,keyword : str):
+    def __init__(self,User : a.user ,keyword : str):
         """_summary_
 
         Args:
@@ -24,12 +28,15 @@ class EmailReceiver:
     
     def receiver(self):
         AttahcmentsPath = None
-        dict = {}
+        dict = {} 
+        count  = 0       
         imap = imaplib.IMAP4_SSL(self._imapserver)
         imap.login(self._email,self._password)
         imap.select(self._option)
         _,arr = imap.search(None,'ALL')
         for message in arr[0].split():
+            count += 1
+            filelists = [] 
             _,data = imap.fetch(message,"(RFC822)")        
             raw_email = data[0][1]
             raw_email_string = raw_email.decode('utf-8')
@@ -40,27 +47,40 @@ class EmailReceiver:
             bcc = email_message.get('BCC')
             date = email_message.get('Date')
             subject = email_message.get('Subject')
-            dict[From+date]= [From,to,bcc,date,subject]
-            
-            # firstTime = True
-            # content = ''    
-            # # iterate through the tree of mail
-            # for part in email_message.walk():
+            dict[count] = [From,to,bcc,date,subject]
+            firstTime = True
+            content = ''    
+            # iterate through the tree of mail
+            for part in email_message.walk():
                 
-            #     if part.get_content_type() == 'text/plain':
-            #         content += part.as_string()
-            #         continue
-            #     if part.get_content_type() == 'multipart':
-            #         continue
-            #     if part.get('Content-Disposition') is None:
-            #         continue
-            #     filename = part.get_filename()
-            #     if firstTime :
-            #         firstTime = False
-            #         AttahcmentsPath = os.mkdir(os.path.join(self._dir,))            
-            #     if bool(filename):
-            #         filepath = 
-        return dict
-    
-         
+                if part.get_content_type() == 'text/plain':
+                    content += part.as_string()
+                    continue
+                if part.get_content_type() == 'multipart':
+                    continue
+                if part.get('Content-Disposition') is None:
+                    continue
+                filename = part.get_filename()
+                if firstTime :
+                    firstTime = False
+                    AttahcmentsPath = self._dir + '\\' + str(count)
+                    if not os.path.isdir(AttahcmentsPath):
+                        os.mkdir(AttahcmentsPath)            
+                if bool(filename):
+                    filepath = AttahcmentsPath+'\\'+filename
+                    
+                    if not os.path.isfile(filepath):
+                        fd = open(filepath,'wb')
+                        fd.write(part.get_payload(decode=True))
+                        fd.close()
+                        filelists.append(filepath)
+            if filelists is not []:
+                dict[count] = dict[count] + filelists
         
+        return dict
+                    
+         
+User = a.user("testmoha99@gmail.com",'gtmzpktjrzdqcywb','imap.gmail.com')
+em = EmailReceiver(User,'Inbox')
+em.receiver()
+print("all done")

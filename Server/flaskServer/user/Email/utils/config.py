@@ -13,3 +13,5 @@ IMAP_SERVERS ={
 }
 
 IMAP_PORT = 993
+
+CDR_PATH = "..//CDR_ROOM"
