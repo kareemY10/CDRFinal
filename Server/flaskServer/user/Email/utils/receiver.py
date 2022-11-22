@@ -52,6 +52,7 @@ class EmailReceiver:
             subdict["to"] = to
             subdict["bcc"] = bcc
             subdict["subject"] = subject
+            subdict["date"] = date
             firstTime = True
             content = ''    
             # iterate through the tree of mail
