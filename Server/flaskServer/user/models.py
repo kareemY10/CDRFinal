@@ -2,7 +2,7 @@ from flask import Flask , jsonify , request ,session,redirect
 import uuid
 from passlib.hash import pbkdf2_sha256
 from user.Database import database
-
+from user.Email.utils.authentication import *
 DB=database.DataBase()
 
 class User:
@@ -22,12 +22,12 @@ class User:
         }
 
         
-        status=DB.insert_user(user['email'],user['password']) 
-        print('i am status '+ str(status))
-        #status=False
+        DB.insert_user(user['email'],user['password']) 
+        status=vaild_credentials(user['email'],user['password'])
+        
         if status==False:
-            print('big big problem')
-            return jsonify({"error":"Email address already in use"}) ,400
+
+            return jsonify({"error":"Wrong Credintials"}) ,400
             
 
         if status==True:

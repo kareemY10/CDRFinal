@@ -5,7 +5,7 @@ from functools import wraps
 from user.Database import database
 from user.Email.models import *
 from user.Email.utils.receiver import *
-from user.Email.models import user
+from user.Email.models import user as SessionUser
 app = Flask(__name__)
 DB=database.DataBase()
 app.secret_key='temporary_secret'
@@ -33,8 +33,7 @@ def Home():
 
 
     
-    #emails=getEmails(email,passphrase)
-    #CurrentUser=user(session['email'],'imap.gmail.com')
+   # CurrentUser=SessionUser()
     
 
     #Reciver=EmailReceiver(CurrentUser,'Inbox')

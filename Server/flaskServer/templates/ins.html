@@ -10,46 +10,17 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-
- <!------ Include the above in your HEAD tag ---------->
+<!------ Include the above in your HEAD tag ---------->
 
 
     <title>My Website</title>
   </head>
   <body style="background-color:#F6F8FC;">
     {% from 'components.html' import Navbar  ,ShowFooter %}
-    
     {{ Navbar(Loggedin) }}
 
 
-
-<div class="wrapper fadeInDown">
-    <div id="formContentS">
-      <!-- Tabs Titles -->
-  
-      <!-- Icon -->
-      <div class="fadeIn first">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/RPC-JP_Logo.png" id="icon" alt="User Icon" />
-      </div>
-  
-      <!-- signup Form -->
-      <form  id='signup_form' name='signup_form'>
-        <input type="text" id="signup" class="fadeIn second" name="email" placeholder="Email">
-        <input type="text" id="password" class="fadeIn third" name="passphrase" placeholder="password">
-        <input type="submit" id="signupform" class="fadeIn fourth" value="Sign Up">
-        <div id='loader' class="loader" style="display:none ;"></div>
-        <p class="error error--hidden"  style="color: red;"></p>
-      </form>
-  
-      <!-- Remind Passowrd -->
-      <div id="formFooter">
-        <a class="underlineHover" href="/instructions">for instructions click here</a>
-      </div>
-  
-    </div>
-  </div>
+      <h1>instructions</h1>
 
 
     
