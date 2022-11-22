@@ -92,9 +92,3 @@ class EmailReceiver:
         return dict
                     
          
-User = a.user('testmoha99@gmail.com','gtmzpktjrzdqcywb','imap.gmail.com')
-em = EmailReceiver(User,'Inbox')
-d = em.receiver()
-for item in d:
-    print(d[item])
-    print("=========================================")
