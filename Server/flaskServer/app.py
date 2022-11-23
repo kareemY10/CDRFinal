@@ -23,7 +23,7 @@ def login_required(func):
 from user import routes
 
 
-#arr={"Kareem": "Hi can you send me the the budget charts ...", "Microsoft": 'buy xbox today ...' , 'chris':'Hi I need you to push youre code asap ...','Mohammed':'Just sent you the database diagram ...'}
+arr={"Kareem": "Hi can you send me the the budget charts ...", "Microsoft": 'buy xbox today ...' , 'chris':'Hi I need you to push youre code asap ...','Mohammed':'Just sent you the database diagram ...'}
 
 @app.route('/Home/')
 @login_required
@@ -36,7 +36,11 @@ def Home():
     
     Reciver=EmailReceiver(CurrentUser,'Inbox')
 
-    arr=Reciver.receiver()
+    #ar1r=Reciver.receiver()
+    #print(ar1r)
+
+        
+
     return render_template('Home.html',UserEmails=arr ,Loggedin=1 )
 
 
