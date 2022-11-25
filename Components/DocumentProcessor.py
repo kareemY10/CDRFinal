@@ -20,8 +20,15 @@ def DisableLinks(filepath):
     return logs if logs != None else None 
 
 
-def DisableMacros(filepath,filename):
+def DisableMacros(filepath):
     print('================Remove Macros================')
+    dir = filepath.split('\\')
+    filename = ''
+    for i in range(0,len(dir) -1 ):
+        filename += dir[i] +'\\'
+    fn= dir[-1].split('.')
+    filename +=fn+'.pptx'
+    del fn,dir
     doc = aw.Document(filepath)
     if doc.vba_project.modules is None :
         return None
@@ -34,8 +41,8 @@ def DisableMacros(filepath,filename):
         doc.vba_project.modules.remove(doc.vba_project.modules[0])
     
     doc.remove_macros()
-    doc.save(filepath+'\\'+filename+'.docx') 
-    clean_docx(filepath+'\\'+filename+'.docx')
+    doc.save(filename) 
+    clean_docx(filename)
     print('[=]Successfully remove all Macros.')  
     print('==============================================================')
     return logs,filename+'.docx' if logs != None else None,filename+'.docx' 
