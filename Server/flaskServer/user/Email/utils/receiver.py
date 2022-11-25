@@ -6,8 +6,11 @@ import email
 import os
 import os
 import sys
-sys.path.append(os.path.abspath('C:\\temp\\NAC\\FinalProject\\CDRFP\\CDRFinal\\Server\\flaskServer\\user\\'))
-import Email.models.user as a
+sys.path.append(os.path.abspath('C:\\Users\\user\\Desktop\\CDRFinal\\Server\\flaskServer\\user\\Email'))
+import models.user as a
+
+import hashlib
+
 import base64
 
 class EmailReceiver:
@@ -26,7 +29,7 @@ class EmailReceiver:
         self._option = keyword
         self._dir = User._dir
     
-    def receiver(self):
+    def receiver(self,number):
         AttahcmentsPath = None
         dict = {} 
         count  = 0       
@@ -35,6 +38,8 @@ class EmailReceiver:
         imap.select(self._option)
         _,arr = imap.search(None,'ALL')
         for message in arr[0].split():
+            if count==number:
+                break
             count += 1
             filelists = [] 
             _,data = imap.fetch(message,"(RFC822)")        
@@ -48,6 +53,8 @@ class EmailReceiver:
             date = email_message.get('Date')
             subject = email_message.get('Subject')
             subdict = {}
+            temp=From+date
+            subdict['mailCode']=hashlib.sha256(temp.encode()).hexdigest()
             subdict["from"]=From
             subdict["to"] = to
             subdict["bcc"] = bcc
@@ -89,6 +96,6 @@ class EmailReceiver:
                 subdict["content"] = content
                 dict[count] = subdict
         
-        return dict
+        return dict , count
                     
          

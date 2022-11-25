@@ -16,30 +16,30 @@
   </head>
   <body style="background-color:#F6F8FC;">
 
-    
-
-    {% from 'components.html' import Navbar , ShowEmail ,ShowFooter %}
-    {{ Navbar(Loggedin) }}
-    
-    <div class="E-Showcard" style="border:solid; border-radius: 20px;
-    width: 50%; margin:0 auto ; background-color: #FFFFFF; ">
-     
-    
-     {% for  code , content in UserEmails.items() %}
-
-        
-          {{ ShowEmail(code, content[0],content[1]) }}
-    
-        
-
-    {% endfor %}
-
-
-    </div>
-
+    {{date}}
+    <br>
+    {{From}}
+    <br>
+    {{subject}}
+    <br>
+    {{bcc}}
+    <br>
+    {{fileslists}}
+    <br>
+    {% for file in content %}
+        {{file}}
+        <a href="/{{file}}" download='stam'>download</a>
+    {%endfor%}
     <br>
 
-    {{ ShowFooter() }}
 
-  </body>
+
+
+
+
+
+
+
+
+</body>
 </html>

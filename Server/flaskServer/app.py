@@ -1,14 +1,20 @@
 
-from flask import Flask,render_template ,session ,redirect
+from flask import Flask,render_template ,session ,redirect,request
 
 from functools import wraps
 from user.Database import database
 from user.Email.models import *
 from user.Email.utils.receiver import *
 from user.Email.models import user as SessionUser
+from flask_caching import Cache
+
 app = Flask(__name__)
 DB=database.DataBase()
 app.secret_key='temporary_secret'
+cache=Cache()
+app.config['CACHE_TYPE']='simple'
+
+cache.init_app(app)
 
 def login_required(func):
     @wraps(func)
@@ -22,11 +28,11 @@ def login_required(func):
 
 from user import routes
 
+mails=None
 
-arr={"Kareem": "Hi can you send me the the budget charts ...", "Microsoft": 'buy xbox today ...' , 'chris':'Hi I need you to push youre code asap ...','Mohammed':'Just sent you the database diagram ...'}
-
-@app.route('/Home/')
+@app.route('/Home/', methods=['GET','POST'])
 @login_required
+#@cache.cached(timeout=10, key_prefix='homeMails')
 def Home():
 
 
@@ -35,14 +41,48 @@ def Home():
     
     
     Reciver=EmailReceiver(CurrentUser,'Inbox')
+    global mails
 
-    #ar1r=Reciver.receiver()
-    #print(ar1r)
+    if request.method=="GET":
+        arr=Reciver.receiver(1)
+        mails=arr[0]
+
+        FROM_SUBJECT={}
+        HAshCode={}
+
+        for i in range(arr[1]):
+            print(mails[i+1]['from'])
+            FROM_SUBJECT[mails[i+1]['mailCode']]=(mails[i+1]['from'],mails[i+1]['subject'])
+            print(FROM_SUBJECT)
+            
 
         
+        return render_template('Home.html',UserEmails=FROM_SUBJECT ,Loggedin=1 ,mail=mails)
 
-    return render_template('Home.html',UserEmails=arr ,Loggedin=1 )
+    if request.method=='POST':
+        
+        ClickedMailCode=request.form['custId']
+        Number=0
+        for key in mails:
+            print('------------------------------------------')
+            print(mails[key])
+            print('------------------------------------------')
 
+            if mails[key]['mailCode']==ClickedMailCode:
+                Number=key
+
+        From=mails[Number]['from']
+        to=mails[Number]["to"] 
+        bcc=mails[Number]['bcc']
+        subject=mails[Number]['subject']
+        date=str(mails[Number]['date'])
+        fileslists=mails[Number]['files']
+        content=mails[Number]['content']
+
+                            
+        
+        return render_template('Mail.html',From=From,to=to,bcc=bcc,subject=subject,date=date,fileslists=fileslists,content=content)
+        
 
 
 
@@ -53,9 +93,11 @@ def instruct():
 
 @app.route('/')
 def register():
-    return render_template('signup.html')
-
-
+    if 'logged_in' in session:
+        return redirect('/Home/')
+    else:
+        return render_template('signup.html')
+    
 
 
 if __name__ == '__main__':

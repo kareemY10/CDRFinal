@@ -3,7 +3,11 @@ import uuid
 from passlib.hash import pbkdf2_sha256
 from user.Database import database
 from user.Email.utils.authentication import *
+from user.Email.utils.receiver import *
+from user.Email.models import user as SessionUser
+
 DB=database.DataBase()
+
 
 class User:
 
@@ -11,6 +15,8 @@ class User:
         session['logged_in']=True
 
         session['user']=user
+        session['Mail']=None
+
         return jsonify(user),200
 
     
@@ -23,7 +29,10 @@ class User:
 
         
         DB.insert_user(user['email'],user['password']) 
+
         status=vaild_credentials(user['email'],user['password'])
+
+
         
         if status==False:
 

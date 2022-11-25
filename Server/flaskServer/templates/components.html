@@ -40,22 +40,22 @@
           </header>
         {%- endmacro %}
 
-        {% macro ShowEmail(sender,msg) -%}
-  
-       <div  class="d" class="OpenBtn" style= "border-left: 5px solid #4285f4; background-color: #eff1f9;   height:90px;
-        width: 90%; padding:5px; margin: 20px;" >
+        {% macro ShowEmail(code,sender,msg) -%}
+          <form name={{code}} action="/Home/" method="post" >
 
-            <h1 style="font-style:Sans Serif ; font-size: medium;">{{sender}}</h1> 
+            <div class="d" class="OpenBtn" style="border-left: 5px solid #4285f4; background-color: #eff1f9;   height:90px;
+                          width: 90%; padding:5px; margin: 20px;"  >
 
-            <p class="hide">{{msg}}</p>
-            <form name="hide">
-            <input type="submit" value="open" id="{{sender}}" class='openMail' class="HideBtn"></button>
+ 
+                    <h1 style="font-style:Sans Serif ; font-size: medium;">{{sender}}</h1> 
+
+                      <p id="{{code}}" class="hide">{{msg}}</p>
+                      <input type="hidden" id="cust{{code}}" name="custId" value="{{code}}">
+
+            </div>
+
             </form>
-
-
-
-      </div>
-
+          
 
 
         {%- endmacro %}
@@ -70,7 +70,9 @@
           </footer>
           {%- endmacro %}
 
-          {% macro OpenEmail() -%}
+          {% macro OpenEmail(mail) -%}
+
+
 
               
     
