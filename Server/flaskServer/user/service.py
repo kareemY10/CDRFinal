@@ -17,7 +17,7 @@ IMAP_SERVERS ={
     "outlook":"imap-mail.outlook.com"
 }
 
-def getEmails(email : str,appkey : str) ->dict[str]:
+def getEmails(email : str,appkey : str):
     
     
     def extract_domain(email_address : str): 
