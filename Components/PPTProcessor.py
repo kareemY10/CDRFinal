@@ -25,9 +25,16 @@ def DisableLinks(filepath):
 
 
 
-def DisableMacro(dirpath,filename):
+def DisableMacro(filepath : str):
     logs = []
-    with slides.Presentation(dirpath+'\\'+filename+'pptm') as prs:
+    dir = filepath.split('\\')
+    filename = ''
+    for i in range(0,len(dir) -1 ):
+        filename += dir[i] +'\\'
+    fn= dir[-1].split('.')
+    filename +=fn+'.pptx'
+    del fn,dir
+    with slides.Presentation(filepath) as prs:
         if prs.vba_project.modules is None :
             return None,None
         vba_list = list(prs.vba_project.modules)
@@ -36,8 +43,8 @@ def DisableMacro(dirpath,filename):
             print(log)
             logs.append(log)
             prs.vba_project.modules.remove(prs.vba_project.modules[0])
-        prs.save(filename+'.pptx',slides.export.SaveFormat.PPTX) 
-    clean_ppt(filename+'.pptx')
+        prs.save(filename,slides.export.SaveFormat.PPTX) 
+    clean_ppt(filename)
     print('[=]Successfully remove all Macros.')  
     print('==============================================================')
     return logs,filename+'.pptx' if logs != None else None,filename+'.pptx' 
