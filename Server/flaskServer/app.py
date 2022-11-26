@@ -1,5 +1,5 @@
 
-from flask import Flask,render_template ,session ,redirect,request
+from flask import Flask,render_template ,session ,redirect,request , send_file
 
 from functools import wraps
 from user.Database import database
@@ -44,7 +44,7 @@ def Home():
     global mails
 
     if request.method=="GET":
-        arr=Reciver.receiver(1)
+        arr=Reciver.receiver(5)
         mails=arr[0]
 
         FROM_SUBJECT={}
@@ -90,6 +90,11 @@ def Home():
 def instruct():
     return render_template('ins.html')
 
+@app.route('/download' , methods=['post'])
+def download():
+    
+    path=request.form['path']
+    return send_file(path,as_attachment=True)
 
 @app.route('/')
 def register():
