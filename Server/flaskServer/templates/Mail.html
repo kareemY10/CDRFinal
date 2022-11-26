@@ -16,27 +16,21 @@
   </head>
   <body style="background-color:#F6F8FC;">
 
-    {{date}}
+    Date :  {{date}}
     <br>
     {{From}}
     <br>
-    {{subject}}
+    Subject :   {{subject}}
     <br>
-    {{bcc}}
+    {{content}}
+
+    {% for file in fileslists%}
+    <form action="/download" method="post">
+      <input type="hidden" id="lname" value={{file}} name="path"><br><br>
+      <input type="submit" value="Download">
+    </form>
     <br>
-    {{fileslists}}
-    <br>
-    {% for file in content %}
-        {{file}}
-        <a href="/{{file}}" download='stam'>download</a>
     {%endfor%}
-    <br>
-
-
-
-
-
-
 
 
 
