@@ -51,9 +51,11 @@ class EmailProcess:
     def CDR(self):
         threads = [] 
         for ext in self.Extensions:
+            print(self.Extensions[ext])
             for filepath in self.Extensions[ext]:
+                print(filepath)
                 for CDR_func in self.Processes[ext]:
-                    threads.append(Thread(target=CDR_func, args=(filepath)))
+                    threads.append(Thread(target=CDR_func, args=(filepath,)))
         
         for thread in threads:
             thread.start()
